@@ -43,7 +43,7 @@ resource "aws_ecs_service" "service" {
   load_balancer {
     target_group_arn = aws_lb_target_group.tg.arn
     container_name   = "${var.base_name}_app"
-    container_port   = 8080
+    container_port   = 80
   }
 
   lifecycle {

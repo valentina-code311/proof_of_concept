@@ -16,29 +16,29 @@ resource "aws_appautoscaling_policy" "scale_up" {
 
   target_tracking_scaling_policy_configuration {
     target_value       = 70
-    scale_out_cooldown = 60
+    scale_out_cooldown = 300
     scale_in_cooldown  = 60
 
     predefined_metric_specification {
-      predefined_metric_type = "ECSServiceAverageCPUUtilization" # ECSServiceAverageMemoryUtilization
+      predefined_metric_type = "ECSServiceAverageMemoryUtilization" # ECSServiceAverageCPUUtilization
     }
   }
 }
 
-resource "aws_appautoscaling_policy" "scale_down" {
-  name               = "scale-down"
-  resource_id        = aws_appautoscaling_target.ecs_target.resource_id
-  scalable_dimension = aws_appautoscaling_target.ecs_target.scalable_dimension
-  service_namespace  = aws_appautoscaling_target.ecs_target.service_namespace
-  policy_type        = "TargetTrackingScaling"
+# resource "aws_appautoscaling_policy" "scale_down" {
+#   name               = "scale-down"
+#   resource_id        = aws_appautoscaling_target.ecs_target.resource_id
+#   scalable_dimension = aws_appautoscaling_target.ecs_target.scalable_dimension
+#   service_namespace  = aws_appautoscaling_target.ecs_target.service_namespace
+#   policy_type        = "TargetTrackingScaling"
 
-  target_tracking_scaling_policy_configuration {
-    target_value       = 30
-    scale_out_cooldown = 60
-    scale_in_cooldown  = 60
+#   target_tracking_scaling_policy_configuration {
+#     target_value       = 30
+#     scale_out_cooldown = 60
+#     scale_in_cooldown  = 60
 
-    predefined_metric_specification {
-      predefined_metric_type = "ECSServiceAverageCPUUtilization"
-    }
-  }
-}
+#     predefined_metric_specification {
+#       predefined_metric_type = "ECSServiceAverageCPUUtilization"
+#     }
+#   }
+# }

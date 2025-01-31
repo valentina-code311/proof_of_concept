@@ -6,7 +6,7 @@ variable "region" {
 
 # Network Variables
 variable "vpc_id" {
-  description = "The VPC ID where the RDS instance will be deployed"
+  description = "The VPC ID where the ECS instances will be deployed"
   type        = string
 }
 

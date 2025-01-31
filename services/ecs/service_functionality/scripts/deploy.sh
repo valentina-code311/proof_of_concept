@@ -17,7 +17,6 @@ Usage() {
 }
 
 
-
 # Function to bring services up
 Up() {
     echo "Bringing services up..."
@@ -30,7 +29,7 @@ Up() {
     fi
 
     # Deploy Infrastructure
-    # ./scripts/connect.sh -s iac -u "terraform init && terraform apply --auto-approve"
+    ./scripts/connect.sh -s iac -u "terraform init && terraform apply --auto-approve"
 
     # Log in to ECR
     aws ecr get-login-password \
@@ -75,23 +74,7 @@ Up() {
         --output text | grep -q "${SERVICE}_service"
 
     # Create or update ECS service
-    if [ $? -ne 0 ]; then
-        echo "Creating ECS service..."
-        SERVICE_ARN=$(aws ecs create-service \
-            --cluster ${SERVICE}_cluster \
-            --service-name ${SERVICE}_service \
-            --task-definition ${SERVICE}_task \
-            --desired-count 2 \
-            --launch-type FARGATE \
-            --network-configuration "awsvpcConfiguration={subnets=[$SUBNETS_IDS],securityGroups=[$SG_ID],assignPublicIp=ENABLED}" \
-            --load-balancers "targetGroupArn=${TARGET_GROUP_ARN},containerName=${SERVICE}_app,containerPort=8080" \
-            --region $REGION \
-            --query "service.serviceArn" \
-            --output text)
-
-        # Save Tasks ARN
-        echo $SERVICE_ARN >> tmp/.services
-    else
+    if [ $? -eq 0 ]; then
         echo "Updating ECS service..."
         aws ecs update-service \
             --cluster ${SERVICE}_cluster \
