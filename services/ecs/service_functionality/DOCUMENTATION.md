@@ -28,8 +28,8 @@ WORKDIR /app
 COPY requirements.txt .
 COPY . /app
 RUN pip install --no-cache-dir -r requirements.txt
-EXPOSE 8080
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]
+EXPOSE 80
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
 ```
 
 * Create a `requirements.txt` file that lists the dependencies required for the FastAPI application. [see requirements](./app/requirements.txt#L1-L2).
@@ -46,12 +46,12 @@ services:
   poc-app:
     container_name: poc-app
     build: app/
-    command: uvicorn main:app --host 0.0.0.0 --port 8080 --reload
+    command: uvicorn main:app --host 0.0.0.0 --port 80 --reload
     ports:
-      - "8080:8080"
+      - "80:80"
     volumes:
       - ./app:/app
 ```
 
-> Run  `docker-compose up -d` to start the API service. Open your browser and navigate to `http://localhost:8080/docs` to access the FastAPI documentation and test the `/get-ip` endpoint.
+> Run  `docker-compose up -d` to start the API service. Open your browser and navigate to `http://localhost:80/docs` to access the FastAPI documentation and test the `/get-ip` endpoint.
 

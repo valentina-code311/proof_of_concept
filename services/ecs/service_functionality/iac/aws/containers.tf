@@ -33,6 +33,7 @@ resource "aws_ecs_service" "service" {
   task_definition = aws_ecs_task_definition.task.arn
   desired_count   = 0
   launch_type     = "FARGATE"
+  force_delete    = true
 
   network_configuration {
     subnets          = data.aws_subnets.default.ids
